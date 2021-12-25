@@ -1,0 +1,15 @@
+{
+  "name": "3rby-basit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "jasmine-browser-runner runSpecs",
+    "start": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node": "^17.3.0"
+  }
+}
