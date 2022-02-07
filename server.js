@@ -38,18 +38,6 @@ app.get('/home', (req, res) => {
     res.render("home", { lessons: lessons })
 })
 
-//Homework Page
-app.get('/homeworks', (req, res) => {
-    var homeworks = Homeworks.find({}, (err, homeworks) => {
-        if(err){
-            console.log(err)
-        } else {
-            return homeworks
-        }
-    })
-    res.render("homeworks", { homeworks: homeworks })
-})
-
 //Exams Page
 app.get('/exams', (req, res) => {
     var exams = Exams.find({}, (err, exams) => {
