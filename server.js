@@ -62,6 +62,19 @@ app.get('/exams', (req, res) => {
     res.render("exams", { exams: exams })
 })
 
+//Exam Route
+app.get('/exams/:id', (req, res) => {
+    Exam.find({}, (err, found) => {
+        if(err){
+            console.log(err)
+        } else {
+            found.passed.push(req.user)
+            found.save()
+            res.render('exam', { exam: found })
+        }
+    })
+})
+
 //Questions Page
 app.get('/questions', (req, res) => {
     var questions = Questions.find({}, (err, questions) => {
@@ -74,9 +87,24 @@ app.get('/questions', (req, res) => {
     res.render("questions", { questions: questions })
 })
 
+//New Question Route
+app.post('/questions', (req, res) => {
+    Questions.create({
+        profile: req.user._id, //Student Profile 
+        answer: "",
+        question: req.body.question,
+    }, (err, created) => {
+        if(err){
+            console.log(err)
+        } else {
+            res.redirect(`/questions#${found._id}`)
+        }
+    })
+})
+
 //Profile Page
 app.get('/profile/:id', (req, res) => {
-    Profile.find({_id: req.params.id}, (err, profile) => {
+    User.find({_id: req.params.id}, (err, profile) => {
         if(err){
             console.log(err)
         } else {
@@ -95,16 +123,6 @@ app.get('/signup', (req, res) => {
     res.render('signup.ejs')
 })
 
-//Exam Page
-app.get('/exam', (req, res) => {
-    res.render('exam.ejs')
-})
-
-//Correct Exam Page
-app.get('/exam/correct', (req, res) => {
-    res.render('correctExam.ejs')
-})
-
 //New Question Page
 app.get('/questions/new', (req, res) => {
     res.render('newQuestion.ejs')
@@ -115,9 +133,17 @@ app.get('/lessons/new', (req, res) => {
     res.render('newLesson.ejs')
 })
 
-//New Homework Page
-app.get('/homework/new', (req, res) => {
-    res.render('newHomework.ejs')
+//New Lesson Route
+app.post('/lesson/new', (req, res) => {
+    Lessons.create({
+        file: req.body.file,
+        lesson: req.body.lesson,
+        description: {
+            title: req.body.title,
+            description: req.body.description,
+        },
+        homework: req.body.homework,
+    })
 })
 
 //New Exam Page
@@ -125,21 +151,48 @@ app.get('/exam/new', (req, res) => {
     res.render('newExam.ejs')
 })
 
+app.post('/exam/new', (req, res) => {
+    Exams.create({
+        questions: req.body.questions,
+        time: req.body.time,
+        title: req.body.title,
+        passed: [],
+        type: {
+            unit: req.body.unit,
+            lesson: req.body.lesson,
+            branch: req.body.branch,
+            term: req.body.term,
+        }
+    }, (err, created) => {
+        if(err){
+            console.log(err)
+        } else {
+            res.redirect("/exams#_id")
+        }
+    })
+})
+
 //Exam Degress Page
 app.get('/exam/degrees', (req, res) => {
-    res.render('examDegrees.ejs')
+    Exams.find({}, (err, found) => {
+        if(err){
+            console.log(err)
+        } else {
+            res.render('examDegrees', { exams: found })
+        }
+    })
 })
 
 //Profiles Page
 app.get('/profiles', (req, res) => {
-    res.render('profiles.ejs')
+    User.find({}, (err, found) => {
+        if(err){
+            console.log(err)
+        } else {
+            res.render('profiles', { profiles: found })
+        }
+    })
 })
-
-
-// Authentication Middleware
-function ensureAuthenticated() {
-    passport.authenticate('local', { failureRedirect: '/login' })
-}
 
 //Server Listener
 
