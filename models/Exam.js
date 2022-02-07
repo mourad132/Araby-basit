@@ -2,7 +2,6 @@ var mongoose = require("mongoose")
 var Schema = mongoose.Schema({
     questions: [],
     time: Number,
-    degree: Number,
     title: String,
     passed: [],
     type: {
