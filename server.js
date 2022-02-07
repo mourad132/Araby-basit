@@ -2,9 +2,24 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
+var passport = require('passport');
+var localStrategy = require('passport-local')
 
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(bodyParser.urlEncoded({ extended: true }))
 app.set('view engine', 'ejs')
+
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+      User.findOne({ username: username }, function (err, user) {
+        if (err) { return done(err); }
+        if (!user) { return done(null, false); }
+        if (!user.verifyPassword(password)) { return done(null, false); }
+        return done(null, user);
+      });
+    }
+));
 
 //Landing Page
 app.get('/', (req, res) => {
@@ -119,6 +134,12 @@ app.get('/exam/degrees', (req, res) => {
 app.get('/profiles', (req, res) => {
     res.render('profiles.ejs')
 })
+
+
+// Authentication Middleware
+function ensureAuthenticated() {
+    passport.authenticate('local', { failureRedirect: '/login' })
+}
 
 //Server Listener
 
