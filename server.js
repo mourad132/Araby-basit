@@ -1,15 +1,27 @@
+//Node Modules
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var passport = require('passport');
-var localStrategy = require('passport-local')
+var localStrategy = require('passport-local');
 
+//Models
+var Questions = require('models/Questions.js');
+var Exams = require('models/Exam.js');
+var User = require('models/Profile.js');
+var Lessons = require('models/Cards.js')
+
+// Connect To Database
+mongoose.connect("mongodb+srv://mourad132:Momo2005@database.4gznf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useUnifiedTopology: true, useUrlEncoded: true })
+
+//Configuring App
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.urlEncoded({ extended: true }))
 app.set('view engine', 'ejs')
 
+//Configure Passport
 passport.use(new LocalStrategy(
     function(username, password, done) {
       User.findOne({ username: username }, function (err, user) {
@@ -52,7 +64,7 @@ app.get('/exams', (req, res) => {
 
 //Exam Route
 app.get('/exams/:id', (req, res) => {
-    Exam.find({}, (err, found) => {
+    Exams.find({}, (err, found) => {
         if(err){
             console.log(err)
         } else {
