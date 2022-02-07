@@ -13,27 +13,61 @@ app.get('/', (req, res) => {
 
 //Home Page
 app.get('/home', (req, res) => {
-    res.render('home.ejs')
+    var lessons = Lessons.find({}, (err, lessons) => {
+        if(err){
+            console.log(err)
+        } else {
+            return lessons
+        }
+    })
+    res.render("home", { lessons: lessons })
 })
 
 //Homework Page
 app.get('/homeworks', (req, res) => {
-    res.render('homework.ejs')
+    var homeworks = Homeworks.find({}, (err, homeworks) => {
+        if(err){
+            console.log(err)
+        } else {
+            return homeworks
+        }
+    })
+    res.render("homeworks", { homeworks: homeworks })
 })
 
 //Exams Page
 app.get('/exams', (req, res) => {
-    res.render('exams.ejs')
+    var exams = Exams.find({}, (err, exams) => {
+        if(err){
+            console.log(err)
+        } else {
+            return exams
+        }
+    })
+    res.render("exams", { exams: exams })
 })
 
 //Questions Page
 app.get('/questions', (req, res) => {
-    res.render('questions.ejs')
+    var questions = Questions.find({}, (err, questions) => {
+        if(err){
+            console.log(err)
+        } else {
+            return questions
+        }
+    })
+    res.render("questions", { questions: questions })
 })
 
 //Profile Page
-app.get('/profile', (req, res) => {
-    res.render('profile.ejs')
+app.get('/profile/:id', (req, res) => {
+    Profile.find({_id: req.params.id}, (err, profile) => {
+        if(err){
+            console.log(err)
+        } else {
+            res.render('profile', { profile: profile })
+        }
+    })
 })
 
 //Login Page
@@ -86,9 +120,10 @@ app.get('/profiles', (req, res) => {
     res.render('profiles.ejs')
 })
 
+//Server Listener
+
 var port = 3000
 
-//Server Listener
 app.listen(port, function() {
     console.log(`Server started at port ${port}`)
 })
