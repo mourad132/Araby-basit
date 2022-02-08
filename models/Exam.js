@@ -12,4 +12,4 @@ var Schema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model(Schema, "Exam")
+module.exports = mongoose.model('Exam', Schema)

@@ -4,21 +4,23 @@ var app = express();
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 var passport = require('passport');
-var localStrategy = require('passport-local');
+var LocalStrategy = require('passport-local');
 
 //Models
-var Questions = require('models/Questions.js');
-var Exams = require('models/Exam.js');
-var User = require('models/Profile.js');
-var Lessons = require('models/Cards.js')
+var Questions = require('./models/Questions.js');
+var Exams = require('./models/Exam.js');
+var User = require('./models/Profile.js');
+var Lessons = require('./models/Cards.js')
 
 // Connect To Database
-mongoose.connect("mongodb+srv://mourad132:Momo2005@database.4gznf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useUnifiedTopology: true, useUrlEncoded: true })
+mongoose.connect("mongodb+srv://mourad132:Momo2005@database.4gznf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useUnifiedTopology: true })
 
 //Configuring App
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(bodyParser.urlEncoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.set('view engine', 'ejs')
 
 //Configure Passport
@@ -39,7 +41,7 @@ app.get('/', (req, res) => {
 });
 
 //Home Page
-app.get('/home', (req, res) => {
+app.get('/lessons', (req, res) => {
     var lessons = Lessons.find({}, (err, lessons) => {
         if(err){
             console.log(err)
@@ -47,7 +49,7 @@ app.get('/home', (req, res) => {
             return lessons
         }
     })
-    res.render("home", { lessons: lessons })
+    res.render("lessons", { lessons: lessons })
 })
 
 //Exams Page
@@ -62,7 +64,7 @@ app.get('/exams', (req, res) => {
     res.render("exams", { exams: exams })
 })
 
-//Exam Route
+//Exam Page
 app.get('/exams/:id', (req, res) => {
     Exams.find({}, (err, found) => {
         if(err){
@@ -87,6 +89,11 @@ app.get('/questions', (req, res) => {
     res.render("questions", { questions: questions })
 })
 
+//New Question Page
+app.get('/questions/new', (req, res) => {
+    res.render('newQuestion')
+})
+
 //New Question Route
 app.post('/questions', (req, res) => {
     Questions.create({
@@ -102,6 +109,17 @@ app.post('/questions', (req, res) => {
     })
 })
 
+//Profiles Page 
+app.get('/profiles', (req, res) => {
+    User.find({}, (err, found) => {
+        if(err){
+            console.log(err)
+        } else {
+            res.render('profiles', { profiles: found })
+        }
+    })
+})
+
 //Profile Page
 app.get('/profile/:id', (req, res) => {
     User.find({_id: req.params.id}, (err, profile) => {
@@ -111,21 +129,6 @@ app.get('/profile/:id', (req, res) => {
             res.render('profile', { profile: profile })
         }
     })
-})
-
-//Login Page
-app.get('/login', (req, res) => {
-    res.render('login.ejs')
-})
-
-//Signup Page
-app.get('/signup', (req, res) => {
-    res.render('signup.ejs')
-})
-
-//New Question Page
-app.get('/questions/new', (req, res) => {
-    res.render('newQuestion.ejs')
 })
 
 //New Lesson Page
@@ -143,15 +146,22 @@ app.post('/lesson/new', (req, res) => {
             description: req.body.description,
         },
         homework: req.body.homework,
+    }, (err, created) => {
+        if(err){
+            console.log(err)
+        } else {
+            res.redirect(`/lessons#${created._id}`)
+        }
     })
 })
 
 //New Exam Page
-app.get('/exam/new', (req, res) => {
+app.get('/exams/new', (req, res) => {
     res.render('newExam.ejs')
 })
 
-app.post('/exam/new', (req, res) => {
+//New Exam Route
+app.post('/exams/new', (req, res) => {
     Exams.create({
         questions: req.body.questions,
         time: req.body.time,
@@ -167,31 +177,19 @@ app.post('/exam/new', (req, res) => {
         if(err){
             console.log(err)
         } else {
-            res.redirect("/exams#_id")
+            res.redirect(`/exams#${created._id}`)
         }
     })
 })
 
-//Exam Degress Page
-app.get('/exam/degrees', (req, res) => {
-    Exams.find({}, (err, found) => {
-        if(err){
-            console.log(err)
-        } else {
-            res.render('examDegrees', { exams: found })
-        }
-    })
+//Login Page
+app.get('/login', (req, res) => {
+    res.render('login.ejs')
 })
 
-//Profiles Page
-app.get('/profiles', (req, res) => {
-    User.find({}, (err, found) => {
-        if(err){
-            console.log(err)
-        } else {
-            res.render('profiles', { profiles: found })
-        }
-    })
+//Signup Page
+app.get('/signup', (req, res) => {
+    res.render('signup.ejs')
 })
 
 //Server Listener

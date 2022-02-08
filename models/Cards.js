@@ -9,4 +9,4 @@ var Schema = mongoose.Schema({
     homework: String,
 })
 
-module.exports = mongoose.model(Schema, 'Card')
+module.exports = mongoose.model('Card', Schema)

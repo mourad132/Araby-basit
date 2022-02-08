@@ -5,4 +5,4 @@ var Schema = mongoose.Schema({
     question: String,
 })
 
-module.exports = mongoose.model(Schema, "Question")
+module.exports = mongoose.model("Question", Schema)
