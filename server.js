@@ -37,7 +37,7 @@ passport.use(new LocalStrategy(
 
 //Landing Page
 app.get('/', (req, res) => {
-    res.render('landing.ejs')
+    res.send('landing page')
 });
 
 //Home Page
@@ -45,11 +45,13 @@ app.get('/lessons', (req, res) => {
     var lessons = Lessons.find({}, (err, lessons) => {
         if(err){
             console.log(err)
+            res.sendStatus(500)
         } else {
             return lessons
         }
     })
-    res.render("lessons", { lessons: lessons })
+    res.send(lessons)
+    res.sendStatus(200)
 })
 
 //Exams Page
@@ -57,11 +59,13 @@ app.get('/exams', (req, res) => {
     var exams = Exams.find({}, (err, exams) => {
         if(err){
             console.log(err)
+            res.sendStatus(500)
         } else {
             return exams
         }
     })
-    res.render("exams", { exams: exams })
+    res.send(exams)
+    res.sendStatus(200)
 })
 
 //Exam Page
@@ -69,10 +73,12 @@ app.get('/exams/:id', (req, res) => {
     Exams.find({}, (err, found) => {
         if(err){
             console.log(err)
+            res.sendStatus(500)
         } else {
             found.passed.push(req.user)
             found.save()
-            res.render('exam', { exam: found })
+            res.send(found)
+            res.sendStatus(200)
         }
     })
 })
@@ -82,29 +88,32 @@ app.get('/questions', (req, res) => {
     var questions = Questions.find({}, (err, questions) => {
         if(err){
             console.log(err)
+            res.sendStatus(500)
         } else {
             return questions
         }
     })
-    res.render("questions", { questions: questions })
+    res.send(questions)
+    res.sendStatus(200)
 })
 
 //New Question Page
 app.get('/questions/new', (req, res) => {
-    res.render('newQuestion')
+    res.send('newQuestion')
 })
 
 //New Question Route
 app.post('/questions', (req, res) => {
     Questions.create({
-        profile: req.user._id, //Student Profile 
+        profile: req.body.id, //Student Profile 
         answer: "",
         question: req.body.question,
     }, (err, created) => {
         if(err){
             console.log(err)
+            res.sendStatus(500)
         } else {
-            res.redirect(`/questions#${found._id}`)
+            res.sendStatus(200)
         }
     })
 })
@@ -114,8 +123,10 @@ app.get('/profiles', (req, res) => {
     User.find({}, (err, found) => {
         if(err){
             console.log(err)
+            res.sendStatus(500)
         } else {
-            res.render('profiles', { profiles: found })
+            res.send(found)
+            res.sendStatus(200)
         }
     })
 })
@@ -125,15 +136,17 @@ app.get('/profile/:id', (req, res) => {
     User.find({_id: req.params.id}, (err, profile) => {
         if(err){
             console.log(err)
+            res.sendStatus(500)
         } else {
-            res.render('profile', { profile: profile })
+            res.send(profile)
+            res.sendStatus(200)
         }
     })
 })
 
 //New Lesson Page
 app.get('/lessons/new', (req, res) => {
-    res.render('newLesson.ejs')
+    res.send('newLesson.ejs')
 })
 
 //New Lesson Route
@@ -149,15 +162,16 @@ app.post('/lesson/new', (req, res) => {
     }, (err, created) => {
         if(err){
             console.log(err)
+            res.sendStatus(500)
         } else {
-            res.redirect(`/lessons#${created._id}`)
+            res.sendStatus(200)
         }
     })
 })
 
 //New Exam Page
 app.get('/exams/new', (req, res) => {
-    res.render('newExam.ejs')
+    res.send('newExam.ejs')
 })
 
 //New Exam Route
@@ -176,20 +190,21 @@ app.post('/exams/new', (req, res) => {
     }, (err, created) => {
         if(err){
             console.log(err)
+            res.sendStatus(500)
         } else {
-            res.redirect(`/exams#${created._id}`)
+            res.sendStatus(200)
         }
     })
 })
 
 //Login Page
 app.get('/login', (req, res) => {
-    res.render('login.ejs')
+    res.send('login.ejs')
 })
 
 //Signup Page
 app.get('/signup', (req, res) => {
-    res.render('signup.ejs')
+    res.send('signup.ejs')
 })
 
 //Server Listener
