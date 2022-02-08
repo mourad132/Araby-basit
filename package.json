@@ -10,6 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node": "^17.3.0"
+    "body-parser": "^1.19.1",
+    "express": "^4.17.2",
+    "mongoose": "^6.2.0",
+    "node": "^17.3.0",
+    "passport": "^0.5.2",
+    "passport-local": "^1.0.0"
   }
 }
