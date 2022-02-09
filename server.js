@@ -3,8 +3,6 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
-var passport = require('passport');
-var LocalStrategy = require('passport-local');
 
 //Models
 var Questions = require('./models/Questions.js');
@@ -18,22 +16,8 @@ mongoose.connect("mongodb+srv://mourad132:Momo2005@database.4gznf.mongodb.net/my
 //Configuring App
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use(passport.initialize())
-app.use(passport.session())
 
 app.set('view engine', 'ejs')
-
-//Configure Passport
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-      User.findOne({ username: username }, function (err, user) {
-        if (err) { return done(err); }
-        if (!user) { return done(null, false); }
-        if (!user.verifyPassword(password)) { return done(null, false); }
-        return done(null, user);
-      });
-    }
-));
 
 //Landing Page
 app.get('/', (req, res) => {
@@ -42,30 +26,26 @@ app.get('/', (req, res) => {
 
 //Home Page
 app.get('/lessons', (req, res) => {
-    var lessons = Lessons.find({}, (err, lessons) => {
+    Lessons.find({}, (err, lessons) => {
         if(err){
             console.log(err)
             res.sendStatus(500)
         } else {
-            return lessons
-        }
+			res.send(lessons)
+		}
     })
-    res.send(lessons)
-    res.sendStatus(200)
 })
 
 //Exams Page
 app.get('/exams', (req, res) => {
-    var exams = Exams.find({}, (err, exams) => {
+    Exams.find({}, (err, exams) => {
         if(err){
             console.log(err)
             res.sendStatus(500)
         } else {
-            return exams
+            res.send(exams)
         }
     })
-    res.send(exams)
-    res.sendStatus(200)
 })
 
 //Exam Page
@@ -78,23 +58,20 @@ app.get('/exams/:id', (req, res) => {
             found.passed.push(req.user)
             found.save()
             res.send(found)
-            res.sendStatus(200)
         }
     })
 })
 
 //Questions Page
 app.get('/questions', (req, res) => {
-    var questions = Questions.find({}, (err, questions) => {
+   Questions.find({}, (err, questions) => {
         if(err){
             console.log(err)
             res.sendStatus(500)
         } else {
-            return questions
+            res.send(questions)
         }
     })
-    res.send(questions)
-    res.sendStatus(200)
 })
 
 //New Question Page
@@ -108,12 +85,17 @@ app.post('/questions', (req, res) => {
         profile: req.body.id, //Student Profile 
         answer: "",
         question: req.body.question,
+		type: {
+			unit: req.body.unit,
+			lesson: req.body.lesson,
+			term: req.body.term
+		}
     }, (err, created) => {
         if(err){
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.sendStatus(200)
+            res.send(created)
         }
     })
 })
@@ -126,7 +108,6 @@ app.get('/profiles', (req, res) => {
             res.sendStatus(500)
         } else {
             res.send(found)
-            res.sendStatus(200)
         }
     })
 })
@@ -139,7 +120,6 @@ app.get('/profile/:id', (req, res) => {
             res.sendStatus(500)
         } else {
             res.send(profile)
-            res.sendStatus(200)
         }
     })
 })
@@ -158,13 +138,18 @@ app.post('/lesson/new', (req, res) => {
             title: req.body.title,
             description: req.body.description,
         },
+		type: {
+			unit: req.body.unit,
+			lesson: req.body.lesson,
+			term: req.body.term,
+		},
         homework: req.body.homework,
     }, (err, created) => {
         if(err){
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.sendStatus(200)
+            res.send(created)
         }
     })
 })
@@ -192,7 +177,7 @@ app.post('/exams/new', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.sendStatus(200)
+            res.send(created)
         }
     })
 })
