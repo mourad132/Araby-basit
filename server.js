@@ -21,7 +21,7 @@ app.set('view engine', 'ejs')
 
 //Landing Page
 app.get('/', (req, res) => {
-    res.render('landing')
+    res.render('landing', { page: 'صفحة الهبوط' })
 });
 
 //Home Page
@@ -31,7 +31,7 @@ app.get('/lessons', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-			res.render('lessons', { lessons: lessons })
+			res.render('lessons', { lessons: lessons, page: "الدروس" })
 		}
     })
 })
@@ -43,7 +43,7 @@ app.get('/exams', (req,  res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.render('exams', { exams: exams })
+            res.render('exams', { exams: exams, page: "الامتحانات" })
         }
     })
 })
@@ -57,7 +57,7 @@ app.get('/exams/:id', (req, res) => {
         } else {
             //found.passed.push(req.user)
             //found.save()
-            res.render('exam', { exam: found })
+            res.render('exam', { exam: found, exam: "امتحان" })
         }
     })
 })
@@ -69,14 +69,14 @@ app.get('/questions', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.render(questions, { questions: questions })
+            res.render(questions, { questions: questions, page: "الأسئلة" })
         }
     })
 })
 
 //New Question Page
 app.get('/questions/new', (req, res) => {
-    res.render('newQuestion')
+    res.render('newQuestion', { page: 'سؤال جديد' })
 })
 
 //New Question Route
@@ -107,7 +107,7 @@ app.get('/profiles', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.render('profiles', { profiles: profiles })
+            res.render('profiles', { profiles: profiles, page: "ملفات الطلبة" })
         }
     })
 })
@@ -119,14 +119,14 @@ app.get('/profile/:id', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.render("profile", { profile: profile })
+            res.render("profile", { profile: profile, page: "ملف" })
         }
     })
 })
 
 //New Lesson Page
 app.get('/lessons/new', (req, res) => {
-    res.render('newLesson.ejs')
+    res.render('newLesson.ejs', { page: "ارفع درس جديد" })
 })
 
 //New Lesson Route
@@ -156,7 +156,7 @@ app.post('/lesson/new', (req, res) => {
 
 //New Exam Page
 app.get('/exams/new', (req, res) => {
-    res.render('newExam.ejs')
+    res.render('newExam.ejs', { page: 'انشأ امتحان' })
 })
 
 //New Exam Route
@@ -184,12 +184,12 @@ app.post('/exams/new', (req, res) => {
 
 //Login Page
 app.get('/login', (req, res) => {
-    res.render('login.ejs')
+    res.render('login.ejs', { page: "تسجيل الدخول" })
 })
 
 //Signup Page
 app.get('/signup', (req, res) => {
-    res.render('signup.ejs')
+    res.render('signup.ejs', { page: "انشأ حساب جديد" })
 })
 
 //Server Listener
