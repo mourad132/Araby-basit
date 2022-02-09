@@ -21,7 +21,7 @@ app.set('view engine', 'ejs')
 
 //Landing Page
 app.get('/', (req, res) => {
-    res.send('landing page')
+    res.render('landing')
 });
 
 //Home Page
@@ -31,19 +31,19 @@ app.get('/lessons', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-			res.send(lessons)
+			res.render('lessons', { lessons: lessons })
 		}
     })
 })
 
 //Exams Page
-app.get('/exams', (req, res) => {
+app.get('/exams', (req,  res) => {
     Exams.find({}, (err, exams) => {
         if(err){
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.send(exams)
+            res.render('exams', { exams: exams })
         }
     })
 })
@@ -55,9 +55,9 @@ app.get('/exams/:id', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            found.passed.push(req.user)
-            found.save()
-            res.send(found)
+            //found.passed.push(req.user)
+            //found.save()
+            res.render('exam', { exam: found })
         }
     })
 })
@@ -69,14 +69,14 @@ app.get('/questions', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.send(questions)
+            res.render(questions, { questions: questions })
         }
     })
 })
 
 //New Question Page
 app.get('/questions/new', (req, res) => {
-    res.send('newQuestion')
+    res.render('newQuestion')
 })
 
 //New Question Route
@@ -95,7 +95,7 @@ app.post('/questions', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.send(created)
+            res.redirect(`/questions#${created._id}`)
         }
     })
 })
@@ -107,7 +107,7 @@ app.get('/profiles', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.send(found)
+            res.render('profiles', { profiles: profiles })
         }
     })
 })
@@ -119,14 +119,14 @@ app.get('/profile/:id', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.send(profile)
+            res.render("profile", { profile: profile })
         }
     })
 })
 
 //New Lesson Page
 app.get('/lessons/new', (req, res) => {
-    res.send('newLesson.ejs')
+    res.render('newLesson.ejs')
 })
 
 //New Lesson Route
@@ -149,14 +149,14 @@ app.post('/lesson/new', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.send(created)
+            res.redirect(`/lessons#${created._id}`)
         }
     })
 })
 
 //New Exam Page
 app.get('/exams/new', (req, res) => {
-    res.send('newExam.ejs')
+    res.render('newExam.ejs')
 })
 
 //New Exam Route
@@ -177,19 +177,19 @@ app.post('/exams/new', (req, res) => {
             console.log(err)
             res.sendStatus(500)
         } else {
-            res.send(created)
+            res.redirect(`/exams#${created._id}`)
         }
     })
 })
 
 //Login Page
 app.get('/login', (req, res) => {
-    res.send('login.ejs')
+    res.render('login.ejs')
 })
 
 //Signup Page
 app.get('/signup', (req, res) => {
-    res.send('signup.ejs')
+    res.render('signup.ejs')
 })
 
 //Server Listener
