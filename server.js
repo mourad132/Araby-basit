@@ -11,7 +11,7 @@ var User = require('./models/Profile.js');
 var Lessons = require('./models/Cards.js')
 
 // Connect To Database
-mongoose.connect("mongodb+srv://mourad132:Momo2005@database.4gznf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", { useUnifiedTopology: true })
+mongoose.connect("mongodb+srv://mourad132:Momo2005@database.4gznf.mongodb.net/ArabyBasit?retryWrites=true&w=majority", { useUnifiedTopology: true })
 
 //Configuring App
 app.use(bodyParser.urlencoded({ extended: true }))
