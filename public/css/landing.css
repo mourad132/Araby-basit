@@ -1,3 +1,142 @@
 body {
-        background-color: purple;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        margin-bottom: 50px;
+}
+
+.btn {
+        height: 70px;
+        text-align: center;
+        font-size: 30px;
+        margin-right: 0
+}
+
+.btn-primary:hover, .btn-primary-outline:hover {
+        background-color: white !important;
+        color: #32a1d1;
+        border: 1px solid #32a1d1;
+}
+
+nav {
+     width: 100vw;
+     height: 75px;
+     display: flex;
+     border: 2px solid black;
+}
+
+nav div {
+        margin-left: auto;
+}
+
+.btn-primary {
+        background-color: #32a1d1;
+        outline: none;
+        border-radius: 0;
+        margin-right: 5px;
+}
+
+.btn-primary:hover {
+        background-color: #32a1d1;
+        outline: black;
+}
+
+.hero {
+        width: 100%;
+        height: 50vh;
+        max-height: max-content;
+        flex-direction: row;
+        justify-content: center;
+        text-align: center;
+        padding-top: 5vh;
+        padding-bottom: 5vh;
+        margin-bottom: 50px;
+        background-image: url('/imgs/personal.jpg');
+        background-position: left;
+        background-repeat: no-repeat;
+        background-size: 50vh;
+}
+
+.hero h5 {
+        color: #32a1d1;
+}
+
+.hero div {
+        float: right;
+        text-align: center;
+        height: 50vh;
+        padding-top: 10vh;
+        padding-right: 10vh;
+}
+
+section {
+        text-align: center;
+        min-height: max-content;
+        margin-bottom: 50px;
+}
+
+.contact-us {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        text-align: center;
+        align-content: center;
+        margin: 0;
+        padding: 0;
+}
+
+.imgs {
+        width: 50px;
+        height: 50px;
+}
+
+.icon {
+        width: 150px;
+        height: 150px;
+}
+
+.icon-subtitle {
+        margin-top: 20px;
+}
+
+@media only screen and (max-width: 750px){
+        .hero {
+                background-size: 40vh;
+        }
+        .icon {
+                width: 75px;
+                height: 75px;
+        }
+        
+        .imgs {
+                width: 35px;
+                height: 35px;
+        }
+}
+
+@media only screen and (max-width: 680px){
+        .hero {
+                background-size: 30vh;
+        }
+        .btn {
+                font-size: 20px;
+        }
+        .navbar {
+                height: 50px;
+        }
+}
+
+@media only screen and (max-width: 610px){
+        .hero div h1{
+                font-size: 20px;
+        }
+        .hero div h5 {
+                font-size: 15px;
+        }
+}
+
+@media only screen and (max-width: 525px){
+        .hero {
+                background-size: 25vh;
+        }
 }

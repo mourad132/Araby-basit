@@ -1,48 +1,52 @@
 <%- include('partials/header.ejs') %>
 <link rel="stylesheet" href="/css/landing.css" type="text/css">
 <nav>
-    <a href="/login" class="btn btn-primary-outline">تسجيل الدخول</a>
-    <a herf="/signup" class="btn btn-primary">انشاء حساب جديد</a>
+    <div>
+        <a href="/login" class="btn btn-primary-outline">تسجيل الدخول</a>
+        <a herf="/signup" class="btn btn-primary">انشاء حساب جديد</a>
+    </div>
 </nav>
 <section class="hero">
-    <img src="#">
-    <h1>د/ مصطفي عبد الهادي</h1>
-    <h3>مدرس اول لغة عربية بمدرسة النصر للبنين</h3>
+    <div>
+        <h1>د/ مصطفي عبد الهادي</h1>
+        <h5>مدرس اول لغة عربية بمدرسة النصر للبنين</h5>
+    </div>
 </section>
+<hr>
 <section>
-    <h1>ما تقدمه المنصة</h1>
-    <div class="icon-container">
-        <img src="#" class="icon">
-        <h4 class="icon-subtitle">دروس</h4>
-    </div>
-    <div class="icon-container">
-        <img src="#" class="icon">
-        <h4 class="icon-subtitle">واجبات</h4>
-    </div>
-    <div class="icon-container">
-        <img src="#" class="icon">
-        <h4 class="icon-subtitle">امتحانات</h4>
-    </div>
-    <div class="icon-container">
-        <img src="#" class="icon">
-        <h4 class="icon-subtitle">اجابات لأسئلة الطلبة</h4>
-    </div>
-    <div class="icon-container">
-        <img src="#" class="icon">
-        <h4 class="icon-subtitle">تقارير الاداء</h4>
+    <h1 style="margin-bottom: 50px;">ما تقدمه المنصة</h1>
+    <div class="contact-us">
+        <div class="icon-container">
+            <img src="/imgs/Icon 1.svg" class="icon">
+        </div>
+        <div class="icon-container">
+            <img src="/imgs/Icon 2.svg" class="icon">
+        </div>
+        <div class="icon-container">
+            <img src="/imgs/Icon 3.svg" class="icon">
+        </div>
+        <div class="icon-container">
+            <img src="/imgs/Icon 4.svg" class="icon">
+        </div>
+        <div class="icon-container">
+            <img src="/imgs/Icon 5.svg" class="icon">
+        </div>
     </div>
 </section>
+<hr>
+<h1 style="text-align: center; margin-bottom: 50px;">تواصل معنا</h1>
 <section class="contact-us">
-    <div class="icon-container">
-        <img src="#" class="icon">
+    <a class="icon-container" href="tel:+201279111932">
+        <img src="/imgs/phone.png" class="imgs">
         <h4 class="icon-subtitle">+20 127 911 1932</h4>
     </div>
-    <div class="icon-container">
-        <img src="#" class="icon">
+    <a class="icon-container" href="https://www.youtube.com/channel/UC_gUQmV9nyhlXXLDaXCrsVA">
+        <img src="/imgs/youtube.png" class="imgs">
         <h4 class="icon-subtitle">عربي بسيط</h4>
     </div>
-    <div class="icon-container">
-        <img src="#" class="icon">
+    <a class="icon-container">
+        <img src="/imgs/facebook.png" class="imgs" href="#">
         <h4 class="icon-subtitle">عربي بسيط</h4>
     </div>
 </section>
+<%- include('partials/footer.ejs') %>
