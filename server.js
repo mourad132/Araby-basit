@@ -1,25 +1,30 @@
 //Node Modules
 var express = require('express');
 var app = express();
-var bodyParser = require('body-parser')
-var mongoose = require('mongoose')
-var path = require('path')
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var path = require('path');
+var jwt = require('jsonwebtoken');
 
 //Models
 var Questions = require('./models/Questions.js');
 var Exams = require('./models/Exam.js');
 var User = require('./models/Profile.js');
-var Lessons = require('./models/Cards.js')
+var Lessons = require('./models/Cards.js');
+
+//Middlewares
+var errHandler = require('./handlers/errorHandler')
 
 // Connect To Database
 mongoose.connect("mongodb+srv://mourad132:Momo2005@database.4gznf.mongodb.net/ArabyBasit?retryWrites=true&w=majority", { useUnifiedTopology: true })
 
-//Configuring App
+//Configuring Middlewares
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'));
+app.use(errHandler)
 
 //Landing Page
 app.get('/', (req, res) => {
@@ -30,8 +35,11 @@ app.get('/', (req, res) => {
 app.get('/lessons', (req, res) => {
     Lessons.find({}, (err, lessons) => {
         if(err){
-            console.log(err)
-            res.sendStatus(500)
+            var error = {
+                status: 401,
+                message: err
+            }
+           next(error)
         } else {
 			res.render('lessons', { lessons: lessons, page: "الدروس" })
 		}
@@ -42,8 +50,11 @@ app.get('/lessons', (req, res) => {
 app.get('/exams', (req,  res) => {
     Exams.find({}, (err, exams) => {
         if(err){
-            console.log(err)
-            res.sendStatus(500)
+            var error = {
+                status: 401,
+                message: err
+            }
+            next(error)
         } else {
             res.render('exams', { exams: exams, page: "الامتحانات" })
         }
@@ -54,11 +65,12 @@ app.get('/exams', (req,  res) => {
 app.get('/exams/:id', (req, res) => {
     Exams.find({}, (err, found) => {
         if(err){
-            console.log(err)
-            res.sendStatus(500)
+            var error = {
+                status: 401,
+                message: err
+            }
+            next(error)
         } else {
-            //found.passed.push(req.user)
-            //found.save()
             res.render('exam', { exam: found, exam: "امتحان" })
         }
     })
@@ -68,8 +80,11 @@ app.get('/exams/:id', (req, res) => {
 app.get('/questions', (req, res) => {
    Questions.find({}, (err, questions) => {
         if(err){
-            console.log(err)
-            res.sendStatus(500)
+            var error = {
+                status: 401,
+                message: err
+            }
+            next(error)
         } else {
             res.render(questions, { questions: questions, page: "الأسئلة" })
         }
@@ -94,10 +109,14 @@ app.post('/questions', (req, res) => {
 		}
     }, (err, created) => {
         if(err){
-            console.log(err)
-            res.sendStatus(500)
+            var error = {
+                status: 401,
+                message: err
+            }
+            next(error)
         } else {
             res.redirect(`/questions#${created._id}`)
+            next({ status: 201, message: 'created' })
         }
     })
 })
@@ -106,8 +125,11 @@ app.post('/questions', (req, res) => {
 app.get('/profiles', (req, res) => {
     User.find({}, (err, found) => {
         if(err){
-            console.log(err)
-            res.sendStatus(500)
+            var error = {
+                status: 401,
+                message: err
+            }
+            next(error)
         } else {
             res.render('profiles', { profiles: profiles, page: "ملفات الطلبة" })
         }
@@ -118,8 +140,11 @@ app.get('/profiles', (req, res) => {
 app.get('/profile/:id', (req, res) => {
     User.find({_id: req.params.id}, (err, profile) => {
         if(err){
-            console.log(err)
-            res.sendStatus(500)
+            var error = {
+                status: 401,
+                message: err
+            }
+            next(error)
         } else {
             res.render("profile", { profile: profile, page: "ملف" })
         }
@@ -148,10 +173,14 @@ app.post('/lesson/new', (req, res) => {
         homework: req.body.homework,
     }, (err, created) => {
         if(err){
-            console.log(err)
-            res.sendStatus(500)
+            var error = {
+                status: 401,
+                message: err
+            }
+            next(error)
         } else {
             res.redirect(`/lessons#${created._id}`)
+            next({ status: 201, message: "created" })
         }
     })
 })
@@ -176,10 +205,14 @@ app.post('/exams/new', (req, res) => {
         }
     }, (err, created) => {
         if(err){
-            console.log(err)
-            res.sendStatus(500)
+            var error = {
+                status: 401,
+                message: err
+            }
+            next(error)
         } else {
             res.redirect(`/exams#${created._id}`)
+            next({ status: 201, message: "created" })
         }
     })
 })
