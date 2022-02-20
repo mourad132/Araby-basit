@@ -6,45 +6,24 @@ var mongoose = require('mongoose');
 var path = require('path');
 var jwt = require('jsonwebtoken');
 
-//Models
-var Questions = require('./models/Questions.js');
-var Exams = require('./models/Exam.js');
-var User = require('./models/Profile.js');
-var Lessons = require('./models/Cards.js');
+// *----- Routers -----*
+var landing = require('routes/landing');
 
-//Middlewares
+// *----- Models -----*
+import { Exams, Questions, User, Lessons } from './models'
+
+// *----- Middlewares ----*
 var errHandler = require('./handlers/errorHandler')
 
 // Connect To Database
 mongoose.connect("mongodb+srv://mourad132:Momo2005@database.4gznf.mongodb.net/ArabyBasit?retryWrites=true&w=majority", { useUnifiedTopology: true })
 
-//Configuring Middlewares
+// *---- Configuring Middlewares ----*
+app.set('view engine', 'ejs')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-
-app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'));
 app.use(errHandler)
-
-//Landing Page
-app.get('/', (req, res) => {
-    res.render('landing', { page: 'صفحة الهبوط' })
-});
-
-//Home Page
-app.get('/lessons', (req, res) => {
-    Lessons.find({}, (err, lessons) => {
-        if(err){
-            var error = {
-                status: 401,
-                message: err
-            }
-           next(error)
-        } else {
-			res.render('lessons', { lessons: lessons, page: "الدروس" })
-		}
-    })
-})
 
 //Exams Page
 app.get('/exams', (req,  res) => {
@@ -56,7 +35,7 @@ app.get('/exams', (req,  res) => {
             }
             next(error)
         } else {
-            res.render('exams', { exams: exams, page: "الامتحانات" })
+            res.render('exams',)
         }
     })
 })
@@ -147,40 +126,6 @@ app.get('/profile/:id', (req, res) => {
             next(error)
         } else {
             res.render("profile", { profile: profile, page: "ملف" })
-        }
-    })
-})
-
-//New Lesson Page
-app.get('/lessons/new', (req, res) => {
-    res.render('newLesson.ejs', { page: "ارفع درس جديد" })
-})
-
-//New Lesson Route
-app.post('/lesson/new', (req, res) => {
-    Lessons.create({
-        file: req.body.file,
-        lesson: req.body.lesson,
-        description: {
-            title: req.body.title,
-            description: req.body.description,
-        },
-		type: {
-			unit: req.body.unit,
-			lesson: req.body.lesson,
-			term: req.body.term,
-		},
-        homework: req.body.homework,
-    }, (err, created) => {
-        if(err){
-            var error = {
-                status: 401,
-                message: err
-            }
-            next(error)
-        } else {
-            res.redirect(`/lessons#${created._id}`)
-            next({ status: 201, message: "created" })
         }
     })
 })
