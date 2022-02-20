@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Lessons = require('./Cards');
+var Lessons = require('./Lessons');
 var Exam = require('./Exam');
 var User = require('./User');
 var Questions = require('./Questions');

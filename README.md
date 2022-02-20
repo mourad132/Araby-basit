@@ -1,8 +1,8 @@
 # Araby-basit
 
-## [Routes](./routes)
+## [Routes](./server/routes)
 
-### [Auth](./routes/auth) ``` /api/auth ```
+### [Auth](./server/routes/auth) ``` /api/auth ```
 
 #### Included Routes:
 - Login Route
@@ -12,7 +12,7 @@
   - GET Route
   - POST Route
 
-### [Exams](./routes/exams) ```  /api/exams ```
+### [Exams](./server/routes/exams) ```  /api/exams ```
 
 #### Included Routes:
 - All Exams ``` / ```
@@ -23,13 +23,13 @@
     - GET Route
     - POST Route
 
-### [Landing](./routes/landing) ``` / ```
+### [Landing](./server/routes/landing) ``` / ```
 
 #### Included Routes:
 - Landing Route ``` / ```
     - GET Route
 
-### [Lessons](./routes/lessons) ``` /lessons ```
+### [Lessons](./server/routes/lessons) ``` /lessons ```
 
 #### Included Routes: 
 - All Lessons ``` / ```
@@ -38,7 +38,7 @@
     - GET Route
     - POST Route
 
-### [Profiles](./routes/profiles) ``` /profiles ```
+### [Profiles](./server/routes/profiles) ``` /profiles ```
 
 #### Included Routes:
 - Profiles ``` / ```
@@ -48,9 +48,9 @@
 
 -------------------------------------------------------
 
-## [Helper Functions](./helpers)
+## [Helper Functions](./server/helpers)
 
-### [find](./helpers/find)
+### [find](./server/helpers/find)
 
 takes three arguments ```request response next schemaType```
 
@@ -59,7 +59,7 @@ takes three arguments ```request response next schemaType```
 - Finds Instances in DB
 - Sends Them As JSON obj.
 
-### [create](./helpers/create) 
+### [create](./server/helpers/create) 
 
 takes six arguments ```response next schemaType body errStatus redirectUrl```
 
@@ -68,7 +68,7 @@ takes six arguments ```response next schemaType body errStatus redirectUrl```
 - Creates new Instance From Body
 - Send Instance in JSON 
 
-### [schemaChecker](./helpers/schemaChecker) 
+### [schemaChecker](./server/helpers/schemaChecker) 
 
 takes one argument ``` schemaType ```
 
@@ -78,13 +78,13 @@ takes one argument ``` schemaType ```
 
 -----------------------------------------------------
 
-## [DB Models](./models)
+## [DB Models](./server/models)
 
-### [index](./models/index)
+### [index](./server/models/index)
 
 Main File which imports all models
 
-### [User](./models/User)
+### [User](./server/models/User)
 
 model for User Schema
 
@@ -96,7 +96,7 @@ model for User Schema
     school: String,
     password: String,
 
-### [Questions](./models/Questions)
+### [Questions](./server/models/Questions)
 
 Model for Question Schema
 
@@ -105,7 +105,7 @@ Model for Question Schema
     answer: String,
     question: String,
 
-### [Lessons](./models/Lessons)
+### [Lessons](./server/models/Lessons)
 
 Model for new Lessons
 
@@ -118,7 +118,7 @@ Model for new Lessons
     },
     homework: String,
 
-### [Exam](./models/Exam)
+### [Exam](./server/models/Exam)
 
 Model for new exams
 
@@ -138,7 +138,7 @@ Model for new exams
 
 ## Handlers
 
-### [Error Handler](./handlers/errorHandler)
+### [Error Handler](./server/handlers/errorHandler)
 Handles the Errors by using ``` next(err) ```
 
 *error obj:* ``` { status: HTTP Status Code, message: Error } ```
