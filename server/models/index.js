@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Lessons = require('./Cards');
 var Exam = require('./Exam');
-var User = require('./Profile');
+var User = require('./User');
 var Questions = require('./Questions');
 
 module.exports.User

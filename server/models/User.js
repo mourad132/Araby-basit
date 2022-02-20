@@ -8,4 +8,4 @@ var Schema = mongoose.Schema({
     password: String,
 })
 
-module.exports = mongoose.model("Profile", Schema)
+module.exports = mongoose.model("User", Schema)
