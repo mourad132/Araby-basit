@@ -123,7 +123,7 @@ Model for new Lessons
 Model for new exams
 
 #### Schema:
-    questions: [],``` { choices: [1,2,3,4], question: "", file: "" } ```
+    questions: [{ choices: [1,2,3,4], question: "", file: "" }]
     time: Number,
     title: String,
     passed: [],
